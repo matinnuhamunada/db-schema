@@ -1,4 +1,4 @@
-CREATE TABLE antismash.taxa (
+CREATE TABLE taxa (
     tax_id	int4 NOT NULL,
     superkingdom	text,
     phylum	text,

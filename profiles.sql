@@ -1,4 +1,4 @@
-CREATE TABLE antismash.profiles (
+CREATE TABLE profiles (
     name	text NOT NULL,
     description	text,
     cutoff	int4,
@@ -6,10 +6,7 @@ CREATE TABLE antismash.profiles (
     CONSTRAINT profiles_pkey PRIMARY KEY (name)
 );
 
-COMMENT ON TABLE antismash.profiles IS
-  'HMM profiles used during cluster detection';
-
-INSERT INTO antismash.profiles (name, description, cutoff, filename)
+INSERT INTO profiles (name, description, cutoff, filename)
 VALUES
     ('Condensation', 'Condensation domain', 20, 'Condensation.hmm'),
     ('AMP-binding', 'Adenylation domain', 20, 'AMP-binding.hmm'),

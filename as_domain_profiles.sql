@@ -1,15 +1,12 @@
-CREATE TABLE antismash.as_domain_profiles (
-    as_domain_profile_id	serial NOT NULL,
+CREATE TABLE as_domain_profiles (
+    as_domain_profile_id	INTEGER NOT NULL,
     name	text,
     description	text,
     database	text,
     CONSTRAINT as_domain_profiles_pkey PRIMARY KEY (as_domain_profile_id)
 );
 
-COMMENT ON TABLE antismash.as_domain_profiles IS
-  'A functional secondary metabolite domain profile predicted by antiSMASH';
-
-INSERT INTO antismash.as_domain_profiles (name, description, database)
+INSERT INTO as_domain_profiles (name, description, database)
 VALUES
     ('Condensation', 'Condensation domain', 'nrpspksdomains.hmm'),
     ('Condensation_DCL', 'Condensation domain that links L-amino acid to peptide ending with D-amino acid', 'nrpspksdomains.hmm'),

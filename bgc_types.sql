@@ -1,21 +1,16 @@
-CREATE TABLE antismash.bgc_types (
-    bgc_type_id	serial NOT NULL,
+CREATE TABLE bgc_types (
+    bgc_type_id	INTEGER NOT NULL,
     term	text,
     description	text,
     parent_id	int4,
     CONSTRAINT bgc_types_pkey PRIMARY KEY (bgc_type_id),
     CONSTRAINT bgc_types_term_unique UNIQUE (term),
-    CONSTRAINT bgc_types_parent_id_fkey FOREIGN KEY (parent_id) REFERENCES antismash.bgc_types (bgc_type_id)
+    CONSTRAINT bgc_types_parent_id_fkey FOREIGN KEY (parent_id) REFERENCES bgc_types (bgc_type_id)
 );
 
-COMMENT ON TABLE antismash.bgc_types IS
-  'Biosynthetic gene cluster types. Basic types according to MIBiG spec.';
-
 --- basic MIBiG types
-INSERT INTO antismash.bgc_types (term, description, parent_id)
-SELECT val.term, val.description, val.parent_id::int4
-FROM (
-    VALUES
+WITH val1 ( term, description, parent_id ) AS (
+	VALUES
         ('pks', 'Polyketide', NULL),
         ('nrps', 'Nonribosomal peptide', NULL),
         ('ripp', 'Ribosomally synthesized and post-translationally modified peptide', NULL),
@@ -23,13 +18,14 @@ FROM (
         ('saccharide', 'Saccharide', NULL),
         ('alkaloid', 'Alkaloid', NULL),
         ('other', 'Other', NULL)
-    ) val ( term, description, parent_id );
+    )
 
+INSERT INTO bgc_types (term, description, parent_id)
+SELECT val1.term, val1.description, val1.parent_id
+FROM val1;
 
 --- More detailed antiSMASH types
-INSERT INTO antismash.bgc_types (term, description, parent_id)
-SELECT val.term, val.description, f.bgc_type_id
-FROM (
+WITH val2 ( term, description, parent_term ) AS (
     VALUES
         ('t1pks', 'Type I polyketide', 'pks'),
         ('transatpks', 'Trans-AT polyketide', 'pks'),
@@ -73,5 +69,11 @@ FROM (
         ('fused', 'Pheganomycin-like ligase', 'other'),
         ('pbde', 'Polybrominated diphenyl ether', 'other'),
         ('acyl_amino_acids', 'N-acyl amino acid cluster', 'other')
-    ) val ( term, description, parent_term )
-LEFT JOIN antismash.bgc_types f ON val.parent_term = f.term;
+    )
+
+INSERT INTO bgc_types (term, description, parent_id)
+SELECT val2.term, val2.description, f.bgc_type_id
+FROM val2
+
+LEFT JOIN bgc_types f
+ON val2.parent_term = f.term;

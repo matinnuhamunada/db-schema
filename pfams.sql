@@ -1,4 +1,4 @@
-CREATE TABLE antismash.pfams (
+CREATE TABLE pfams (
     pfam_id	text NOT NULL,
     name	text,
     description	text,
@@ -7,10 +7,7 @@ CREATE TABLE antismash.pfams (
     CONSTRAINT pfams_pkey PRIMARY KEY (pfam_id)
 );
 
-COMMENT ON TABLE antismash.pfams IS
-  'PFAM domain metadata.';
-
-INSERT INTO antismash.pfams (pfam_id, name, description, trusted_cutoff, version)
+INSERT INTO pfams (pfam_id, name, description, trusted_cutoff, version)
 VALUES
     ('PF10417', '1-cysPrx_C', 'C-terminal domain of 1-Cys peroxiredoxin', 20.40, 4),
     ('PF12574', '120_Rick_ant', '120 KDa Rickettsia surface antigen', 22.70, 3),
@@ -7440,7 +7437,10 @@ VALUES
     ('PF03633', 'Glyco_hydro_65C', 'Glycosyl hydrolase family 65, C-terminal domain', 20.90, 10),
     ('PF03632', 'Glyco_hydro_65m', 'Glycosyl hydrolase family 65 central catalytic domain', 27.00, 10),
     ('PF03636', 'Glyco_hydro_65N', 'Glycosyl hydrolase family 65, N-terminal domain', 18.80, 10),
-    ('PF13199', 'Glyco_hydro_66', 'Glycosyl hydrolase family 66', 23.80, 1),
+    ('PF13199', 'Glyco_hydro_66', 'Glycosyl hydrolase family 66', 23.80, 1);
+    
+INSERT INTO pfams (pfam_id, name, description, trusted_cutoff, version)
+VALUES    
     ('PF07477', 'Glyco_hydro_67C', 'Glycosyl hydrolase family 67 C-terminus', 20.80, 7),
     ('PF07488', 'Glyco_hydro_67M', 'Glycosyl hydrolase family 67 middle domain', 21.30, 7),
     ('PF03648', 'Glyco_hydro_67N', 'Glycosyl hydrolase family 67 N-terminus', 22.10, 9),

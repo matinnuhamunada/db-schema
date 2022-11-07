@@ -1,5 +1,5 @@
-CREATE TABLE antismash.monomers (
-    monomer_id	serial NOT NULL,
+CREATE TABLE monomers (
+    monomer_id	INTEGER NOT NULL,
     name	text,
     description	text,
     smile	text,
@@ -9,10 +9,7 @@ CREATE TABLE antismash.monomers (
     CONSTRAINT monomers_name_unique UNIQUE (name)
 );
 
-COMMENT ON TABLE antismash.monomers IS
-  'A basic building block of a compound.';
-
-INSERT INTO antismash.monomers (name, description, three_letter_code, single_letter_code)
+INSERT INTO monomers (name, description, three_letter_code, single_letter_code)
 VALUES
     ('d-dbu', '(2R,3R)-2,3-diaminobutyric acid', NULL, NULL),
     ('dbu', '(2S)-2,3-diaminobutyric acid', NULL, NULL),

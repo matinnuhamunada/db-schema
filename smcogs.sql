@@ -1,19 +1,14 @@
-CREATE TABLE antismash.smcogs (
-    smcog_id	serial NOT NULL,
+CREATE TABLE smcogs (
+    smcog_id	INTEGER NOT NULL,
     name	text,
     description	text,
     functional_class_id	int4,
     CONSTRAINT smcogs_pkey PRIMARY KEY (smcog_id),
-    CONSTRAINT smcogs_functional_class_id_fkey FOREIGN KEY (functional_class_id) REFERENCES antismash.functional_classes (functional_class_id)
+    CONSTRAINT smcogs_functional_class_id_fkey FOREIGN KEY (functional_class_id) REFERENCES functional_classes (functional_class_id)
 );
-COMMENT ON TABLE antismash.smcogs IS
-  'Secondary Metabolite specific Clusters of Orthologous Groups (smCoGs)';
 
-
-INSERT INTO antismash.smcogs (name, description, functional_class_id)
-SELECT val.name, val.description, f.functional_class_id
-FROM (
-    VALUES
+WITH val ( name, description, functional_class_name ) AS (
+VALUES
         ('SMCOG1000', 'ABC transporter ATP-binding protein', 'transporter'),
         ('SMCOG1001', 'short-chain dehydrogenase/reductase SDR', 'biosynthetic_smcog'),
         ('SMCOG1002', 'AMP-dependent synthetase and ligase', 'biosynthetic_smcog'),
@@ -315,5 +310,10 @@ FROM (
         ('SMCOG1298', 'putative carboxymuconolactone decarboxylase', 'biosynthetic_smcog'),
         ('SMCOG1299', 'chaperonin GroEL', 'other'),
         ('SMCOG1300', 'hypothetical protein', 'other')
-    ) val ( name, description, functional_class_name )
-LEFT JOIN antismash.functional_classes f ON val.functional_class_name = f.name;
+	)
+
+INSERT INTO smcogs (name, description, functional_class_id)
+SELECT val.name, val.description, f.functional_class_id
+FROM val    
+
+LEFT JOIN functional_classes f ON val.functional_class_name = f.name;
